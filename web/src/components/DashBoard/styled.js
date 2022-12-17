@@ -71,7 +71,90 @@ export const TotalSalesListContainer = styled.div`
 export const TotalSalesListHeader = styled.div`
   width: 100%;
   height: 100px;
-  background-color: ${({ theme }) => theme.colors.backgroundCards};
-  border-radius: 32px 32px 0 0;
+  background-color: #0e1075;
+  border-radius: 32px;
   border-bottom: 0.7px solid rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+`;
+
+export const TotalSalesListHeaderTitle = styled.p`
+  margin: 5px;
+  font-size: 26px;
+  color: ${(props) => props.theme.colors.backgroundCards};
+  font-weight: 500;
+  padding-left: 20px;
+`;
+
+export const TotalSalesHeaderTitleIcon = styled.img`
+  width: 30px;
+  margin-left: 20px;
+`;
+
+export const TotalSalesListMainContainer = styled.div`
+  width: 100%;
+  height: 75%;
+  overflow-y: hidden;
+  background-color: ${(props) => props.theme.colors.backgroundCards};
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const TotalSalesListMainTitle = styled.p`
+  margin: 20px;
+  font-size: 12px;
+  color: #b3b3a8;
+`;
+
+export const TotalSalesListMainContentContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const TotalSalesListMainContentItem = styled.div`
+  width: 100%;
+  height: 70px;
+  padding: 10px;
+  padding-left: 20px;
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+`;
+
+export const TotalSalesMainContantIconContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  background-color: #f0f1fc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+export const TotalSalesMainContantIcon = styled.img`
+  width: 30px;
+`;
+
+export const TotalSalesMainContantTitleContainer = styled.div`
+  height: 100%;
+`;
+export const TotalSalesMainContantTitleWarper = styled.div`
+  height: 100%;
+  width: 150px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const TotalSalesMainContantTitle = styled.p`
+  font-size: 14px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
+export const TotalSalesMainContantNeightboorhood = styled.p`
+  font-size: 14px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.primary};
 `;

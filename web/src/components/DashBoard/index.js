@@ -7,9 +7,23 @@ import {
   TotalSalesHeaderTitleContainer2,
   TotalSalesListContainer,
   TotalSalesListHeader,
+  TotalSalesListHeaderTitle,
+  TotalSalesHeaderTitleIcon,
+  TotalSalesListMainContainer,
+  TotalSalesListMainTitle,
+  TotalSalesListMainContentContainer,
+  TotalSalesListMainContentItem,
+  TotalSalesMainContantIcon,
+  TotalSalesMainContantIconContainer,
+  TotalSalesMainContantTitleContainer,
+  TotalSalesMainContantTitleWarper,
+  TotalSalesMainContantTitle,
+  TotalSalesMainContantNeightboorhood,
 } from "./styled";
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
+import BussImagePath from "../../assets/buss.svg";
+import BussStopImagePath from "../../assets/bussStop.svg";
 import axios from "axios";
 const Dashboard = () => {
   const [dataBrt, setDataBRT] = useState([]);
@@ -77,7 +91,30 @@ const Dashboard = () => {
         </ResponsiveContainer>
       </TotalSalesContainer>
       <TotalSalesListContainer>
-        <TotalSalesListHeader></TotalSalesListHeader>
+        <TotalSalesListHeader>
+          <TotalSalesHeaderTitleIcon src={BussImagePath} />
+          <TotalSalesListHeaderTitle>Estações:</TotalSalesListHeaderTitle>
+        </TotalSalesListHeader>
+        <TotalSalesListMainContainer>
+          <TotalSalesListMainTitle>Recentes:</TotalSalesListMainTitle>
+          <TotalSalesListMainContentContainer>
+            <TotalSalesListMainContentItem>
+              <TotalSalesMainContantIconContainer>
+                <TotalSalesMainContantIcon src={BussStopImagePath} />
+              </TotalSalesMainContantIconContainer>
+              <TotalSalesMainContantTitleContainer>
+                <TotalSalesMainContantTitleWarper>
+                  <TotalSalesMainContantTitle>
+                    Terminal Alvorada
+                  </TotalSalesMainContantTitle>
+                  <TotalSalesMainContantNeightboorhood>
+                    Galeão
+                  </TotalSalesMainContantNeightboorhood>
+                </TotalSalesMainContantTitleWarper>
+              </TotalSalesMainContantTitleContainer>
+            </TotalSalesListMainContentItem>
+          </TotalSalesListMainContentContainer>
+        </TotalSalesListMainContainer>
       </TotalSalesListContainer>
     </DashboardContainer>
   );

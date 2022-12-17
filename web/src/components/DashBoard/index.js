@@ -56,6 +56,7 @@ const Dashboard = () => {
     []
   );
   const [dataEstacoesPorBairro, setDataEstacoesPorBairro] = useState([]);
+  const [pieData, setPieData] = useState([]);
   useEffect(() => {
     axios.get("http://localhost:8000/estacao/anos").then(({ data }) => {
       const newData = [];
@@ -141,6 +142,36 @@ const Dashboard = () => {
           ...minorIDHwithBRT,
           minorIDH,
         ]);
+      });
+  }, []);
+
+  useEffect(() => {
+    let bairrosData = [];
+    let Total = 0;
+    axios
+      .get("http://localhost:8000/estacao/vendasEstacaoPorIDH")
+      .then(({ data }) => {
+        bairrosData = data;
+      })
+      .then(() => {
+        axios
+          .get("http://localhost:8000/estacao/VendasSoma")
+          .then(({ data }) => (Total = parseInt(data[0].Total)))
+          .then(() => {
+            let QntdIDHBaixo = 0;
+            for (let index = 0; index < 10; index++) {
+              QntdIDHBaixo += parseInt(bairrosData[index].vendas);
+            }
+
+            setPieData([
+              { vendas: QntdIDHBaixo, fill: "#FF9300", descricao: "BaixoIDH" },
+              {
+                vendas: Total - QntdIDHBaixo,
+                fill: "#5C53BD",
+                descricao: "Outros",
+              },
+            ]);
+          });
       });
   }, []);
 
@@ -251,8 +282,50 @@ const Dashboard = () => {
           </SalesPerNeightborhoodHeaderItem2>
           <SalesPerNeightborhoodMainWarper>
             <ResponsiveContainer>
-              <PieChart>
-                <Pie></Pie>
+              <PieChart width="95%" height="75%">
+                <Pie
+                  data={pieData}
+                  innerRadius={60}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  fill="#8884d8"
+                  paddingAngle={3}
+                  dataKey="vendas"
+                  label={({
+                    cx,
+                    cy,
+                    midAngle,
+                    innerRadius,
+                    outerRadius,
+                    value,
+                    index,
+                    fill,
+                  }) => {
+                    console.log("handling label?");
+                    const RADIAN = Math.PI / 180;
+                    // eslint-disable-next-line
+                    const radius =
+                      25 + innerRadius + (outerRadius - innerRadius);
+                    // eslint-disable-next-line
+                    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                    // eslint-disable-next-line
+                    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+                    return (
+                      <text
+                        x={x}
+                        y={y}
+                        fill={fill}
+                        textAnchor={x > cx ? "start" : "end"}
+                        dominantBaseline="central"
+                      >
+                        {pieData[index].descricao}
+                      </text>
+                    );
+                  }}
+                />
+                <Tooltip />
               </PieChart>
             </ResponsiveContainer>
           </SalesPerNeightborhoodMainWarper>

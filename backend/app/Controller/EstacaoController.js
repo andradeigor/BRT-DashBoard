@@ -80,4 +80,13 @@ export default {
       }
     );
   },
+  async VendasSoma(req, res) {
+    connection.query(
+      `select sum(Qntd) as Total from VendaEstacao;`,
+      async function (error, results, fields) {
+        if (error) res.status(500).send();
+        res.send(results);
+      }
+    );
+  },
 };

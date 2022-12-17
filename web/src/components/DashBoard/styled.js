@@ -268,7 +268,7 @@ export const SalesPerNeightborhoodMainContainer = styled.div`
 
 export const SalesPerNeightborhoodMainWarper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 80%;
   border-radius: 32px;
   display: flex;
   align-items: center;

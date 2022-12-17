@@ -34,4 +34,31 @@ export default {
       }
     );
   },
+  async EstacaoVendaAnos(req, res) {
+    connection.query(
+      `select Nome,ano,Qntd,Nome_Bairro  from VendaEstacao natural join Estacao natural join Bairro where Qntd >0 order by Qntd  desc;`,
+      async function (error, results, fields) {
+        if (error) res.status(500).send();
+        res.send(results);
+      }
+    );
+  },
+  async VendasAnoTotais(req, res) {
+    connection.query(
+      ` select ano,sum(Qntd) as totalVendas from VendaEstacao natural join Estacao where Qntd >0 group by ano order by ano`,
+      async function (error, results, fields) {
+        if (error) res.status(500).send();
+        res.send(results);
+      }
+    );
+  },
+  async VendaValores(req, res) {
+    connection.query(
+      `select distinct ano,tarifa from VendaEstacao natural join Venda;`,
+      async function (error, results, fields) {
+        if (error) res.status(500).send();
+        res.send(results);
+      }
+    );
+  },
 };

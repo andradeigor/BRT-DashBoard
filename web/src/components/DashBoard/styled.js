@@ -94,11 +94,21 @@ export const TotalSalesHeaderTitleIcon = styled.img`
 export const TotalSalesListMainContainer = styled.div`
   width: 100%;
   height: 75%;
-  overflow-y: hidden;
   background-color: ${(props) => props.theme.colors.backgroundCards};
   border-radius: 32px;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #f0f1fc;
+    border-radius: 20px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #f0f1fc;
+  }
 `;
 
 export const TotalSalesListMainTitle = styled.p`
@@ -156,5 +166,20 @@ export const TotalSalesMainContantTitle = styled.p`
 export const TotalSalesMainContantNeightboorhood = styled.p`
   font-size: 14px;
   font-weight: 400;
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
+export const TotalSalesMainContantNumbersContainer = styled.div`
+  width: 50px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+export const TotalSalesMainContantNumbers = styled.p`
+  font-size: 14px;
+  font-weight: bold;
   color: ${({ theme }) => theme.colors.primary};
 `;

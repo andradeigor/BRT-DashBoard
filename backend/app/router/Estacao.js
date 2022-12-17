@@ -5,5 +5,8 @@ const router = Router();
 
 router.get("/", EstacaoController.EstacaoVendas);
 router.get("/total", EstacaoController.EstacaoVendasTotais);
+router.get("/anos", EstacaoController.VendasAnoTotais);
+router.get("/vendasValores", EstacaoController.VendaValores);
+router.get("/anosEstacao", EstacaoController.EstacaoVendaAnos);
 
 export default router;

@@ -19,6 +19,8 @@ import {
   TotalSalesMainContantTitleWarper,
   TotalSalesMainContantTitle,
   TotalSalesMainContantNeightboorhood,
+  TotalSalesMainContantNumbersContainer,
+  TotalSalesMainContantNumbers,
 } from "./styled";
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
@@ -29,6 +31,7 @@ const Dashboard = () => {
   const [dataBrt, setDataBRT] = useState([]);
   const [dataToShow, setDataToShow] = useState([]);
   const [totalVendas, setTotalVendas] = useState(0.0);
+  const [dataVendasPorEstacao, setDataVendasPorEstacao] = useState([]);
   useEffect(() => {
     axios.get("http://localhost:8000/estacao/anos").then(({ data }) => {
       const newData = [];
@@ -56,6 +59,25 @@ const Dashboard = () => {
         setTotalVendas((Total / 1000000000).toFixed(2));
       });
   }, [dataToShow]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/estacao/anosEstacao").then(({ data }) => {
+      const filtredData = [];
+      data.forEach((item) => {
+        filtredData.push({
+          ano: item.ano,
+          Qntd:
+            item.Qntd > 1000000
+              ? (item.Qntd / 1000000).toFixed(2).toString() + "M"
+              : item.Qntd,
+          Nome: item.Nome.split("(")[0],
+          Nome_Bairro: item.Nome_Bairro.split(",")[0],
+        });
+      });
+      setDataVendasPorEstacao(filtredData);
+    });
+  }, []);
+
   const HandleSelect = (e) => {
     console.log(e);
     if (e == "todos") {
@@ -96,23 +118,37 @@ const Dashboard = () => {
           <TotalSalesListHeaderTitle>Estações:</TotalSalesListHeaderTitle>
         </TotalSalesListHeader>
         <TotalSalesListMainContainer>
-          <TotalSalesListMainTitle>Recentes:</TotalSalesListMainTitle>
+          <TotalSalesListMainTitle>
+            Vendas por Estações:
+          </TotalSalesListMainTitle>
           <TotalSalesListMainContentContainer>
-            <TotalSalesListMainContentItem>
-              <TotalSalesMainContantIconContainer>
-                <TotalSalesMainContantIcon src={BussStopImagePath} />
-              </TotalSalesMainContantIconContainer>
-              <TotalSalesMainContantTitleContainer>
-                <TotalSalesMainContantTitleWarper>
-                  <TotalSalesMainContantTitle>
-                    Terminal Alvorada
-                  </TotalSalesMainContantTitle>
-                  <TotalSalesMainContantNeightboorhood>
-                    Galeão
-                  </TotalSalesMainContantNeightboorhood>
-                </TotalSalesMainContantTitleWarper>
-              </TotalSalesMainContantTitleContainer>
-            </TotalSalesListMainContentItem>
+            {dataVendasPorEstacao.map((item) => {
+              return (
+                <TotalSalesListMainContentItem>
+                  <TotalSalesMainContantIconContainer>
+                    <TotalSalesMainContantIcon src={BussStopImagePath} />
+                  </TotalSalesMainContantIconContainer>
+                  <TotalSalesMainContantTitleContainer>
+                    <TotalSalesMainContantTitleWarper>
+                      <TotalSalesMainContantTitle>
+                        {item.Nome}
+                      </TotalSalesMainContantTitle>
+                      <TotalSalesMainContantNeightboorhood>
+                        {item.Nome_Bairro}
+                      </TotalSalesMainContantNeightboorhood>
+                    </TotalSalesMainContantTitleWarper>
+                  </TotalSalesMainContantTitleContainer>
+                  <TotalSalesMainContantNumbersContainer>
+                    <TotalSalesMainContantNumbers>
+                      {item.Qntd}
+                    </TotalSalesMainContantNumbers>
+                    <TotalSalesMainContantNumbers>
+                      {item.ano}
+                    </TotalSalesMainContantNumbers>
+                  </TotalSalesMainContantNumbersContainer>
+                </TotalSalesListMainContentItem>
+              );
+            })}
           </TotalSalesListMainContentContainer>
         </TotalSalesListMainContainer>
       </TotalSalesListContainer>

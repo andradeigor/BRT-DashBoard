@@ -15,14 +15,34 @@ import {
   TotalSalesListMainContentItem,
   TotalSalesMainContantIcon,
   TotalSalesMainContantIconContainer,
+  Select,
   TotalSalesMainContantTitleContainer,
   TotalSalesMainContantTitleWarper,
   TotalSalesMainContantTitle,
   TotalSalesMainContantNeightboorhood,
   TotalSalesMainContantNumbersContainer,
   TotalSalesMainContantNumbers,
+  StationsPerIDHContainer,
+  SalesPerNeightborhoodContainer,
+  SalesPerNeightborhoodHeader,
+  SalesPerNeightborhoodHeaderItem,
+  SalesPerNeightborhoodHeaderItem2,
+  SalesPerNeightborhoodHeaderTitle,
+  SalesPerNeightborhoodMainContainer,
+  SalesPerNeightborhoodMainWarper,
 } from "./styled";
-import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Sector,
+} from "recharts";
 import { useEffect, useState } from "react";
 import BussImagePath from "../../assets/buss.svg";
 import BussStopImagePath from "../../assets/bussStop.svg";
@@ -32,6 +52,10 @@ const Dashboard = () => {
   const [dataToShow, setDataToShow] = useState([]);
   const [totalVendas, setTotalVendas] = useState(0.0);
   const [dataVendasPorEstacao, setDataVendasPorEstacao] = useState([]);
+  const [dataEstacoesPorBairroHigh, setDataEstacoesPorBairroHigh] = useState(
+    []
+  );
+  const [dataEstacoesPorBairro, setDataEstacoesPorBairro] = useState([]);
   useEffect(() => {
     axios.get("http://localhost:8000/estacao/anos").then(({ data }) => {
       const newData = [];
@@ -76,6 +100,48 @@ const Dashboard = () => {
       });
       setDataVendasPorEstacao(filtredData);
     });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/estacao/estacoesPorBairro")
+      .then(({ data }) => {
+        const minorIDH = { ...data[0], fill: "#FF9300" };
+        const size = data.length;
+        const greaterIDH = data[size - 1];
+        const minorIDHwithBRT = [];
+        const greaterIDHwithBRT = [];
+        const filtredData = data.filter((item) => item.QntdEstacao > 0);
+        const size2 = filtredData.length;
+        minorIDHwithBRT.push(
+          {
+            ...filtredData[0],
+            position: size - data.indexOf(filtredData[0]),
+            fill: "#FF9300",
+          },
+          {
+            ...filtredData[1],
+            position: size - data.indexOf(filtredData[1]),
+            fill: "#FF9300",
+          }
+        );
+        greaterIDHwithBRT.push(
+          {
+            ...filtredData[size2 - 1],
+            position: size - data.indexOf(filtredData[size2 - 1]),
+          },
+          {
+            ...filtredData[size2 - 2],
+            position: size - data.indexOf(filtredData[size2 - 2]),
+          }
+        );
+        setDataEstacoesPorBairroHigh([
+          greaterIDH,
+          ...greaterIDHwithBRT,
+          ...minorIDHwithBRT,
+          minorIDH,
+        ]);
+      });
   }, []);
 
   const HandleSelect = (e) => {
@@ -152,6 +218,46 @@ const Dashboard = () => {
           </TotalSalesListMainContentContainer>
         </TotalSalesListMainContainer>
       </TotalSalesListContainer>
+      <StationsPerIDHContainer>
+        <TotalSalesHeader>
+          <TotalSalesHeaderTitleContainer>
+            <TotalSalesHeaderTitle>Bairros:</TotalSalesHeaderTitle>
+          </TotalSalesHeaderTitleContainer>
+        </TotalSalesHeader>
+        <ResponsiveContainer width="95%" height="75%">
+          <BarChart width={300} height={100} data={dataEstacoesPorBairroHigh}>
+            <Bar dataKey="QntdEstacao" fill="#5C53BD" />
+            <XAxis dataKey="Nome_Bairro" />
+            <Tooltip />
+          </BarChart>
+        </ResponsiveContainer>
+      </StationsPerIDHContainer>
+      <SalesPerNeightborhoodContainer>
+        <SalesPerNeightborhoodHeader>
+          <SalesPerNeightborhoodHeaderItem>
+            <SalesPerNeightborhoodHeaderTitle>
+              Contribuição por IDH
+            </SalesPerNeightborhoodHeaderTitle>
+          </SalesPerNeightborhoodHeaderItem>
+        </SalesPerNeightborhoodHeader>
+        <SalesPerNeightborhoodMainContainer>
+          <SalesPerNeightborhoodHeaderItem2>
+            <Select>
+              <option value="IDH">IDH</option>
+              <option value="IDH">E.Pobreza</option>
+              <option value="IDH">Pobreza</option>
+              <option value="IDH">B.Renda</option>
+            </Select>
+          </SalesPerNeightborhoodHeaderItem2>
+          <SalesPerNeightborhoodMainWarper>
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie></Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </SalesPerNeightborhoodMainWarper>
+        </SalesPerNeightborhoodMainContainer>
+      </SalesPerNeightborhoodContainer>
     </DashboardContainer>
   );
 };

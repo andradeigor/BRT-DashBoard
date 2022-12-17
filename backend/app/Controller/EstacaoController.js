@@ -61,4 +61,23 @@ export default {
       }
     );
   },
+  async EstacoesPorBairo(req, res) {
+    connection.query(
+      `select Nome_Bairro, count(ID_estacao) as QntdEstacao, avg(IDH) as IDH from Qntd_Familia natural join Bairro left outer join Estacao on Bairro.ID_Bairro = Estacao.ID_Bairro group by Nome_Bairro  order by IDH;`,
+      async function (error, results, fields) {
+        if (error) res.status(500).send();
+        res.send(results);
+      }
+    );
+  },
+
+  async VendasEstacaoPorIDH(req, res) {
+    connection.query(
+      `select Nome_Bairro, sum(Qntd) as vendas, avg(IDH) as IDH from VendaEstacao natural join Venda natural join Estacao natural join Bairro group by Nome_Bairro order by IDH;`,
+      async function (error, results, fields) {
+        if (error) res.status(500).send();
+        res.send(results);
+      }
+    );
+  },
 };

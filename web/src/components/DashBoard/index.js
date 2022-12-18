@@ -44,6 +44,7 @@ import {
   PieChart,
   Pie,
   Sector,
+  Label,
 } from "recharts";
 import { useEffect, useState } from "react";
 import BussImagePath from "../../assets/buss.svg";
@@ -163,7 +164,8 @@ const Dashboard = () => {
         setDataEstacoesPorBairroHigh([
           greaterIDH,
           ...greaterIDHwithBRT,
-          ...minorIDHwithBRT,
+          minorIDHwithBRT[1],
+          minorIDHwithBRT[0],
           minorIDH,
         ]);
       });
@@ -188,11 +190,21 @@ const Dashboard = () => {
             }
 
             setPieData([
-              { vendas: QntdIDHBaixo, fill: "#FF9300", descricao: "BaixoIDH" },
+              {
+                vendas: QntdIDHBaixo,
+                fill: "#FF9300",
+                descricao: "BaixoIDH",
+                porcentagem: parseFloat((QntdIDHBaixo / Total) * 100).toFixed(
+                  2
+                ),
+              },
               {
                 vendas: Total - QntdIDHBaixo,
                 fill: "#5C53BD",
                 descricao: "Outros",
+                porcentagem: parseFloat((QntdIDHBaixo / Total) * 100).toFixed(
+                  2
+                ),
               },
             ]);
           });
@@ -225,11 +237,13 @@ const Dashboard = () => {
                   vendas: E_Pobreza,
                   fill: "#FF9300",
                   descricao: "E.Pobreza",
+                  porcentagem: parseFloat((E_Pobreza / Total) * 100).toFixed(2),
                 },
                 {
                   vendas: Total - E_Pobreza,
                   fill: "#5C53BD",
                   descricao: "Outros",
+                  porcentagem: parseFloat((E_Pobreza / Total) * 100).toFixed(2),
                 },
               ]);
             });
@@ -255,11 +269,13 @@ const Dashboard = () => {
                   vendas: Pobreza,
                   fill: "#FF9300",
                   descricao: "Pobreza",
+                  porcentagem: parseFloat((Pobreza / Total) * 100).toFixed(2),
                 },
                 {
                   vendas: Total - Pobreza,
                   fill: "#5C53BD",
                   descricao: "Outros",
+                  porcentagem: parseFloat((Pobreza / Total) * 100).toFixed(2),
                 },
               ]);
             });
@@ -287,11 +303,17 @@ const Dashboard = () => {
                   vendas: Qntd_BaixaRenda,
                   fill: "#FF9300",
                   descricao: "Baixa Renda",
+                  porcentagem: parseFloat(
+                    (Qntd_BaixaRenda / Total) * 100
+                  ).toFixed(2),
                 },
                 {
                   vendas: Total - Qntd_BaixaRenda,
                   fill: "#5C53BD",
                   descricao: "Outros",
+                  porcentagem: parseFloat(
+                    (Qntd_BaixaRenda / Total) * 100
+                  ).toFixed(2),
                 },
               ]);
             });
@@ -319,11 +341,17 @@ const Dashboard = () => {
                   vendas: Qntd_BolsaFamilia,
                   fill: "#FF9300",
                   descricao: "Bolsa Familia",
+                  porcentagem: parseFloat(
+                    (Qntd_BolsaFamilia / Total) * 100
+                  ).toFixed(2),
                 },
                 {
                   vendas: Total - Qntd_BolsaFamilia,
                   fill: "#5C53BD",
                   descricao: "Outros",
+                  porcentagem: parseFloat(
+                    (Qntd_BolsaFamilia / Total) * 100
+                  ).toFixed(2),
                 },
               ]);
             });
@@ -349,11 +377,17 @@ const Dashboard = () => {
                   vendas: QntdIDHBaixo,
                   fill: "#FF9300",
                   descricao: "BaixoIDH",
+                  porcentagem: parseFloat((QntdIDHBaixo / Total) * 100).toFixed(
+                    2
+                  ),
                 },
                 {
                   vendas: Total - QntdIDHBaixo,
                   fill: "#5C53BD",
                   descricao: "Outros",
+                  porcentagem: parseFloat((QntdIDHBaixo / Total) * 100).toFixed(
+                    2
+                  ),
                 },
               ]);
             });
@@ -501,6 +535,15 @@ const Dashboard = () => {
                   }}
                 />
                 <Tooltip content={<CustomTooltipPie />} />
+                <text
+                  x="50%"
+                  y="50%"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fill="#FF9300"
+                >
+                  {pieData.length > 0 ? pieData[0]?.porcentagem + "%" : ""}
+                </text>
               </PieChart>
             </ResponsiveContainer>
           </SalesPerNeightborhoodMainWarper>

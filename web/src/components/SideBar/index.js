@@ -16,7 +16,7 @@ const SideBar = () => {
           <SideBarLogo src={BussLogoPath} />
         </SideBarLogoWarper>
         <HeaderFont>BRT Dashboard:</HeaderFont>
-        <SideBarName>Nomes:</SideBarName>
+        <SideBarName>Created by:</SideBarName>
         <SideBarNameItems>Igor de Andrade</SideBarNameItems>
         <SideBarNameItems>Bernado Milewski</SideBarNameItems>
         <SideBarNameItems>Carolina Carvalho </SideBarNameItems>

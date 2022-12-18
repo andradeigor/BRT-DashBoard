@@ -149,7 +149,7 @@ const Dashboard = () => {
     let bairrosData = [];
     let Total = 0;
     axios
-      .get("http://localhost:8000/estacao/vendasEstacaoPorIDH")
+      .get("http://localhost:8000/estacao/vendasEstacaoPorIDH?filter=IDH")
       .then(({ data }) => {
         bairrosData = data;
       })
@@ -176,11 +176,164 @@ const Dashboard = () => {
   }, []);
 
   const HandleSelect = (e) => {
-    console.log(e);
-    if (e == "todos") {
-      setDataToShow(dataBrt);
+    let bairrosData = [];
+    let Total = 0;
+    if (e === "E.Pobreza") {
+      axios
+        .get(
+          "http://localhost:8000/estacao/vendasEstacaoPorIDH?filter=Extrema_Pobreza"
+        )
+        .then(({ data }) => {
+          bairrosData = data;
+        })
+        .then(() => {
+          axios
+            .get("http://localhost:8000/estacao/VendasSoma")
+            .then(({ data }) => (Total = parseInt(data[0].Total)))
+            .then(() => {
+              let E_Pobreza = 0;
+              for (let index = 0; index < 10; index++) {
+                E_Pobreza += parseInt(bairrosData[index].vendas);
+              }
+
+              setPieData([
+                {
+                  vendas: E_Pobreza,
+                  fill: "#FF9300",
+                  descricao: "E.Pobreza",
+                },
+                {
+                  vendas: Total - E_Pobreza,
+                  fill: "#5C53BD",
+                  descricao: "Outros",
+                },
+              ]);
+            });
+        });
+    } else if (e === "Pobreza") {
+      axios
+        .get("http://localhost:8000/estacao/vendasEstacaoPorIDH?filter=Pobreza")
+        .then(({ data }) => {
+          bairrosData = data;
+        })
+        .then(() => {
+          axios
+            .get("http://localhost:8000/estacao/VendasSoma")
+            .then(({ data }) => (Total = parseInt(data[0].Total)))
+            .then(() => {
+              let Pobreza = 0;
+              for (let index = 0; index < 10; index++) {
+                Pobreza += parseInt(bairrosData[index].vendas);
+              }
+
+              setPieData([
+                {
+                  vendas: Pobreza,
+                  fill: "#FF9300",
+                  descricao: "Pobreza",
+                },
+                {
+                  vendas: Total - Pobreza,
+                  fill: "#5C53BD",
+                  descricao: "Outros",
+                },
+              ]);
+            });
+        });
+    } else if (e === "B.Renda") {
+      axios
+        .get(
+          "http://localhost:8000/estacao/vendasEstacaoPorIDH?filter=Baixa_Renda"
+        )
+        .then(({ data }) => {
+          bairrosData = data;
+        })
+        .then(() => {
+          axios
+            .get("http://localhost:8000/estacao/VendasSoma")
+            .then(({ data }) => (Total = parseInt(data[0].Total)))
+            .then(() => {
+              let Qntd_BaixaRenda = 0;
+              for (let index = 0; index < 10; index++) {
+                Qntd_BaixaRenda += parseInt(bairrosData[index].vendas);
+              }
+
+              setPieData([
+                {
+                  vendas: Qntd_BaixaRenda,
+                  fill: "#FF9300",
+                  descricao: "Baixa Renda",
+                },
+                {
+                  vendas: Total - Qntd_BaixaRenda,
+                  fill: "#5C53BD",
+                  descricao: "Outros",
+                },
+              ]);
+            });
+        });
+    } else if (e == "Qntd_BolsaFamilia") {
+      axios
+        .get(
+          "http://localhost:8000/estacao/vendasEstacaoPorIDH?filter=Qntd_BolsaFamilia"
+        )
+        .then(({ data }) => {
+          bairrosData = data;
+        })
+        .then(() => {
+          axios
+            .get("http://localhost:8000/estacao/VendasSoma")
+            .then(({ data }) => (Total = parseInt(data[0].Total)))
+            .then(() => {
+              let Qntd_BolsaFamilia = 0;
+              for (let index = 0; index < 10; index++) {
+                Qntd_BolsaFamilia += parseInt(bairrosData[index].vendas);
+              }
+
+              setPieData([
+                {
+                  vendas: Qntd_BolsaFamilia,
+                  fill: "#FF9300",
+                  descricao: "Bolsa Familia",
+                },
+                {
+                  vendas: Total - Qntd_BolsaFamilia,
+                  fill: "#5C53BD",
+                  descricao: "Outros",
+                },
+              ]);
+            });
+        });
     } else {
-      setDataToShow(dataBrt.filter((item) => item.ano == e));
+      axios
+        .get("http://localhost:8000/estacao/vendasEstacaoPorIDH?filter=IDH")
+        .then(({ data }) => {
+          bairrosData = data;
+        })
+        .then(() => {
+          axios
+            .get("http://localhost:8000/estacao/VendasSoma")
+            .then(({ data }) => (Total = parseInt(data[0].Total)))
+            .then(() => {
+              let QntdIDHBaixo = 0;
+              for (let index = 0; index < 10; index++) {
+                QntdIDHBaixo += parseInt(bairrosData[index].vendas);
+              }
+
+              setPieData([
+                {
+                  vendas: QntdIDHBaixo,
+                  fill: "#FF9300",
+                  descricao: "BaixoIDH",
+                },
+                {
+                  vendas: Total - QntdIDHBaixo,
+                  fill: "#5C53BD",
+                  descricao: "Outros",
+                },
+              ]);
+            });
+        });
     }
   };
   return (
@@ -267,17 +420,18 @@ const Dashboard = () => {
         <SalesPerNeightborhoodHeader>
           <SalesPerNeightborhoodHeaderItem>
             <SalesPerNeightborhoodHeaderTitle>
-              Contribuição por IDH
+              Contribuição por Condição
             </SalesPerNeightborhoodHeaderTitle>
           </SalesPerNeightborhoodHeaderItem>
         </SalesPerNeightborhoodHeader>
         <SalesPerNeightborhoodMainContainer>
           <SalesPerNeightborhoodHeaderItem2>
-            <Select>
+            <Select onChange={(e) => HandleSelect(e.target.value)}>
               <option value="IDH">IDH</option>
-              <option value="IDH">E.Pobreza</option>
-              <option value="IDH">Pobreza</option>
-              <option value="IDH">B.Renda</option>
+              <option value="E.Pobreza">E.Pobreza</option>
+              <option value="Pobreza">Pobreza</option>
+              <option value="B.Renda">B.Renda</option>
+              <option value="Qntd_BolsaFamilia">B.Familia</option>
             </Select>
           </SalesPerNeightborhoodHeaderItem2>
           <SalesPerNeightborhoodMainWarper>
@@ -302,14 +456,10 @@ const Dashboard = () => {
                     index,
                     fill,
                   }) => {
-                    console.log("handling label?");
                     const RADIAN = Math.PI / 180;
-                    // eslint-disable-next-line
                     const radius =
                       25 + innerRadius + (outerRadius - innerRadius);
-                    // eslint-disable-next-line
                     const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                    // eslint-disable-next-line
                     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
                     return (

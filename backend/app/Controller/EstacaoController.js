@@ -72,13 +72,24 @@ export default {
   },
 
   async VendasEstacaoPorIDH(req, res) {
-    connection.query(
-      `select Nome_Bairro, sum(Qntd) as vendas, avg(IDH) as IDH from VendaEstacao natural join Venda natural join Estacao natural join Bairro group by Nome_Bairro order by IDH;`,
-      async function (error, results, fields) {
-        if (error) res.status(500).send();
-        res.send(results);
-      }
-    );
+    const order = req.query.filter;
+    if (order == "IDH") {
+      connection.query(
+        `select Nome_Bairro, sum(Qntd) as vendas, avg(${order}) as ${order} from VendaEstacao natural join Venda natural join Estacao natural join Bairro group by Nome_Bairro order by ${order};`,
+        async function (error, results, fields) {
+          if (error) res.status(500).send();
+          res.send(results);
+        }
+      );
+    } else {
+      connection.query(
+        `select Nome_Bairro, sum(Qntd) as vendas, avg(${order}) as ${order}  from VendaEstacao natural join Venda natural join Estacao natural join Bairro natural join Qntd_Familia group by Nome_Bairro order by ${order} desc ;`,
+        async function (error, results, fields) {
+          if (error) res.status(500).send();
+          res.send(results);
+        }
+      );
+    }
   },
   async VendasSoma(req, res) {
     connection.query(

@@ -236,7 +236,7 @@ export const SalesPerNeightborhoodHeaderItem2 = styled.div`
 
 export const SalesPerNeightborhoodHeaderTitle = styled.p`
   background-color: ${({ theme }) => theme.colors.backgroundCards};
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   text-align: center;
 `;

@@ -6,6 +6,7 @@ export const DashboardContainer = styled.div`
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 `;
 
 export const TotalSalesContainer = styled.div`
@@ -13,7 +14,6 @@ export const TotalSalesContainer = styled.div`
   height: 50%;
   background-color: ${({ theme }) => theme.colors.backgroundCards};
   border-radius: 32px;
-  margin-right: 100px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   &:hover {
@@ -71,8 +71,8 @@ export const TotalSalesListContainer = styled.div`
 export const TotalSalesListHeader = styled.div`
   width: 100%;
   height: 100px;
-  background-color: #0e1075;
-  border-radius: 32px;
+  background-color: #252525;
+  border-radius: 32px 32px 0 0;
   border-bottom: 0.7px solid rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
@@ -81,7 +81,7 @@ export const TotalSalesListHeader = styled.div`
 export const TotalSalesListHeaderTitle = styled.p`
   margin: 5px;
   font-size: 26px;
-  color: ${(props) => props.theme.colors.backgroundCards};
+  color: #bb87fc;
   font-weight: 500;
   padding-left: 20px;
 `;
@@ -135,7 +135,7 @@ export const TotalSalesListMainContentItem = styled.div`
 export const TotalSalesMainContantIconContainer = styled.div`
   width: 50px;
   height: 50px;
-  background-color: #f0f1fc;
+  background-color: #404040;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -187,7 +187,6 @@ export const TotalSalesMainContantNumbers = styled.p`
 export const StationsPerIDHContainer = styled.div`
   width: 50%;
   height: 45%;
-  margin-right: 100px;
   background-color: ${({ theme }) => theme.colors.backgroundCards};
   border-radius: 32px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -249,14 +248,18 @@ export const Select = styled.select`
   cursor: pointer;
   font-family: "Poppins", sans-serif;
   font-size: 16px;
-  color: "#FFF";
+  color: #bb87fc;
   margin-bottom: 5px;
+  option {
+    color: #bb87fc;
+    border: none;
+    display: flex;
+  }
 `;
-
-export const SelectItems = styled.p`
+export const SelectItems = styled.option`
   font-family: "Poppins", sans-serif;
   font-size: 16px;
-  color: "#FFF";
+  color: white;
 `;
 
 export const SalesPerNeightborhoodMainContainer = styled.div`
@@ -273,4 +276,10 @@ export const SalesPerNeightborhoodMainWarper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const TooltipContainer = styled.div`
+  background-color: #fff;
+  padding: 10px 20px 10px 20px;
+  border-radius: 16px;
 `;

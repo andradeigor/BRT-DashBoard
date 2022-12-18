@@ -45,7 +45,7 @@ export default {
   },
   async VendasAnoTotais(req, res) {
     connection.query(
-      ` select ano,sum(Qntd) as totalVendas from VendaEstacao natural join Estacao where Qntd >0 group by ano order by ano`,
+      `select ano,sum(Qntd) as totalVendas from VendaEstacao natural join Estacao where ID_Venda in (select ID_Venda from VendaEstacao where Qntd >0) group by ano order by ano;`,
       async function (error, results, fields) {
         if (error) res.status(500).send();
         res.send(results);
@@ -93,7 +93,7 @@ export default {
   },
   async VendasSoma(req, res) {
     connection.query(
-      `select sum(Qntd) as Total from VendaEstacao;`,
+      `select sum(Qntd) as Total from VendaEstacao where ID_Venda in (select ID_Venda from VendaEstacao where Qntd >0);`,
       async function (error, results, fields) {
         if (error) res.status(500).send();
         res.send(results);

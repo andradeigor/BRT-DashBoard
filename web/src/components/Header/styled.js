@@ -8,7 +8,8 @@ export const HeaderContainer = styled.div`
 
 export const HeaderFont = styled.p`
   line-height: 1.2;
-  font-size: 36px;
+  font-size: 30px;
+  text-align: center;
   color: ${(props) => props.theme.colors.primary};
   font-weight: 600;
 `;

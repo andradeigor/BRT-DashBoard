@@ -30,6 +30,8 @@ import {
   SalesPerNeightborhoodHeaderTitle,
   SalesPerNeightborhoodMainContainer,
   SalesPerNeightborhoodMainWarper,
+  SelectItems,
+  TooltipContainer,
 } from "./styled";
 import {
   LineChart,
@@ -47,6 +49,28 @@ import { useEffect, useState } from "react";
 import BussImagePath from "../../assets/buss.svg";
 import BussStopImagePath from "../../assets/bussStop.svg";
 import axios from "axios";
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active) {
+    return (
+      <TooltipContainer>
+        <p className="label">{`${label} : ${payload[0].value}`}</p>
+        <p className="label">{`Posição: ${payload[0].payload.position}`}</p>
+      </TooltipContainer>
+    );
+  }
+  return null;
+};
+const CustomTooltipPie = ({ active, payload, label }) => {
+  if (active) {
+    return (
+      <TooltipContainer>
+        <p className="label">{`${payload[0].payload.descricao} : ${payload[0].value}`}</p>
+      </TooltipContainer>
+    );
+  }
+  return null;
+};
 const Dashboard = () => {
   const [dataBrt, setDataBRT] = useState([]);
   const [dataToShow, setDataToShow] = useState([]);
@@ -107,9 +131,9 @@ const Dashboard = () => {
     axios
       .get("http://localhost:8000/estacao/estacoesPorBairro")
       .then(({ data }) => {
-        const minorIDH = { ...data[0], fill: "#FF9300" };
         const size = data.length;
-        const greaterIDH = data[size - 1];
+        const minorIDH = { ...data[0], fill: "#FF9300", position: size };
+        const greaterIDH = { ...data[size - 1], position: 1 };
         const minorIDHwithBRT = [];
         const greaterIDHwithBRT = [];
         const filtredData = data.filter((item) => item.QntdEstacao > 0);
@@ -412,7 +436,7 @@ const Dashboard = () => {
           <BarChart width={300} height={100} data={dataEstacoesPorBairroHigh}>
             <Bar dataKey="QntdEstacao" fill="#5C53BD" />
             <XAxis dataKey="Nome_Bairro" />
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} />
           </BarChart>
         </ResponsiveContainer>
       </StationsPerIDHContainer>
@@ -427,11 +451,11 @@ const Dashboard = () => {
         <SalesPerNeightborhoodMainContainer>
           <SalesPerNeightborhoodHeaderItem2>
             <Select onChange={(e) => HandleSelect(e.target.value)}>
-              <option value="IDH">IDH</option>
-              <option value="E.Pobreza">E.Pobreza</option>
-              <option value="Pobreza">Pobreza</option>
-              <option value="B.Renda">B.Renda</option>
-              <option value="Qntd_BolsaFamilia">B.Familia</option>
+              <SelectItems value="IDH">IDH</SelectItems>
+              <SelectItems value="E.Pobreza">E.Pobreza</SelectItems>
+              <SelectItems value="Pobreza">Pobreza</SelectItems>
+              <SelectItems value="B.Renda">B.Renda</SelectItems>
+              <SelectItems value="Qntd_BolsaFamilia">B.Familia</SelectItems>
             </Select>
           </SalesPerNeightborhoodHeaderItem2>
           <SalesPerNeightborhoodMainWarper>
@@ -442,6 +466,7 @@ const Dashboard = () => {
                   innerRadius={60}
                   cx="50%"
                   cy="50%"
+                  stroke={false}
                   outerRadius={80}
                   fill="#8884d8"
                   paddingAngle={3}
@@ -475,7 +500,7 @@ const Dashboard = () => {
                     );
                   }}
                 />
-                <Tooltip />
+                <Tooltip content={<CustomTooltipPie />} />
               </PieChart>
             </ResponsiveContainer>
           </SalesPerNeightborhoodMainWarper>

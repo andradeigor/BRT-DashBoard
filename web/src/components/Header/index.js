@@ -1,11 +1,7 @@
 import { HeaderContainer, HeaderFont } from "./styled";
 
 const Header = () => {
-  return (
-    <HeaderContainer>
-      <HeaderFont>BRT Dashboard:</HeaderFont>
-    </HeaderContainer>
-  );
+  return <HeaderContainer></HeaderContainer>;
 };
 
 export default Header;

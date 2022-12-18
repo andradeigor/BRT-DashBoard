@@ -1,10 +1,10 @@
 export const light = {
   title: "light",
   colors: {
-    primary: "#043133",
+    primary: "#BB87FC",
     purple: "#4232EB",
-    text: "#1E273C",
-    background: "#FAFAFA",
-    backgroundCards: "#FFF",
+    text: "#BB87FC",
+    background: "#121212",
+    backgroundCards: "#1E1E1E",
   },
 };

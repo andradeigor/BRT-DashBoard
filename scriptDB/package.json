@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "csv": "^6.2.5",
+    "dotenv": "^16.0.3",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3"
   }

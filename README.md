@@ -10,14 +10,37 @@ Este projeto consiste num dashboard do BRT feito com dados públicos disponívei
 
 ## 🤖 Como Usar:
 
-Rodando o bot localmente
+Criando o DataBase.
+
+```sql
+CREATE DATABASE BRT;
+
+CREATE TABLE BAIRRO(ID_BAIRRO VARCHAR(255) PRIMARY KEY,NOME_BAIRRO
+VARCHAR(255) NOT NULL,IDH DECIMAL(3,2) NOT NULL );
+
+CREATE TABLE ESTACAO(ID_ESTACAO VARCHAR(255) PRIMARY KEY NOT NULL, NOME
+VARCHAR(255) NOT NULL, ID_BAIRRO VARCHAR(255) NOT NULL, FOREIGN KEY
+(ID_BAIRRO) REFERENCES BAIRRO(ID_BAIRRO));
+
+CREATE TABLE QNTD_FAMILIA(ID_QTDFAM VARCHAR(255) NOT NULL PRIMARY
+KEY,EXTREMA_POBREZA INT NOT NULL, POBREZA INT NOT NULL,BAIXA_RENDA INT NOT NULL,ACIMA_1_2_SM INT NOT NULL, QNTD_BOLSAFAMILIA INT NOT NULL, ID_BAIRRO VARCHAR(255) NOT NULL, FOREIGN KEY(ID_BAIRRO) REFERENCES BAIRRO(ID_BAIRRO));
+
+CREATE TABLE VENDA(ID_VENDA VARCHAR(255) NOT NULL PRIMARY KEY, TARIFA DECIMAL(10,2) NOT NULL);
+
+CREATE TABLE VENDAESTACAO(ANO INT NOT NULL, QNTD INT, ID_VENDA VARCHAR(255) NOT NULL, ID_ESTACAO VARCHAR(255) NOT NULL, PRIMARY
+KEY(ANO,ID_VENDA,ID_ESTACAO),FOREIGN KEY(ID_VENDA) REFERENCES
+VENDA(ID_VENDA), FOREIGN KEY(ID_ESTACAO) REFERENCES ESTACAO(ID_ESTACAO) );
+
+```
+
+Populando o Banco de dados.
 
 ```bash
  # Clone esse repositório
  $ git clone https://github.com/andradeigor/BRT-DashBoard
 
- # Acesse a pasta do projeto
- $ cd DiscordBotUFRJ
+ # Acesse a pasta dos scripts
+ $ cd scriptDB/
 
  # Instale dependências
  $ yarn
@@ -27,46 +50,74 @@ Rodando o bot localmente
 
  # Substituia as variáveis de ambiente
 
- # Ligue o bot
- $ node index.js
+ # Rode o script bairro.js
+ $ node bairro.js
+
+ # Rode o script qntd_familias.js
+ $ node qntd_familias.js
+
+ # Rode o script Venda-brt.js
+ $ node Venda-brt.js
 
 ```
 
-## 📜 Comandos
+Rodando o BackEnd.
 
-- **f.base**: Dado um numero, a base dele e a base destino converte ele.
-- **f.capslock**: RETORNA O TWEET DA ROBERTA MIRANDA.
-- **f.champ**: retorna a página do op.gg do campeão de LoL que escrever após o comando.
-- **f.covid**: retorna os casos e covid desde o início até agora no Rio de Janeiro.
-- **f.docs**: retorna a página da documentação do bot.
-- **f.dontpad**: retorna o link do dontpad para Computação 1 (matéria da graduação) para o dia de hoje.
-- **f.freegame**: fala os jogos gratuitos da semana (dependemos da API).
-- **f.leave**: o bot da sala de audio.
-- **f.pokemon**: retorna um pokemon aleatório (menos para uma usuária específica).
-- **f.portabilidade**: retorna o meme da portabilidade do C.
-- **f.sapo**: sapo.
-- **f.server**: retorna informações sobre o server (CUIDADO: depende de cache).
-- **f.supremacy**: realiza o meme do supremacy com a pessoa marcada.
-- **f.user**: retorna a foto do usuário mencionado (ou a sua).
+```bash
+ # Acesse a pasta do backend
+ $ cd backend/
 
-### 📌 Comandos futuros:
+ # Instale dependências
+ $ yarn
 
-- Mini calendário de atividades
+ # Copie o .env.example e renomeie como .env
+ $ cp .env.example .env
 
-## 💻 Tecnologias
+ # Substituia as variáveis de ambiente
+
+ # Inicie o servidor
+ $ yarn start
+
+```
+
+Rodando o FrontEnd.
+
+```bash
+ # Acesse a pasta do frontend
+ $ cd web/
+
+ # Instale dependências
+ $ yarn
+
+ # Inicie o servidor web
+ $ yarn start
+
+```
+
+## 📜 Demonstração:
+
+## 💻 Tecnologias:
 
 - NodeJS
-- DiscordJS
+- Express
+- CSV
+- DotEnv
+- Mysql2
+- CORS
+- React
+- Axios
+- Recharts
+- Styled Components
 
-## 👥 Contribuidores
+## 👥 Contribuidores:
 
 Esses são os contribuidores do projeto (<a href="https://allcontributors.org/docs/en/emoji-key">emoji key</a>).
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/andradeigor"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/21049910?v=4" width="100px;" alt=""/><br /><sub><b>Igor Andrade</b></sub></a><br /><a href="https://github.com/andradeigor/DiscordBotUFRJ/commits?author=andradeigor" title="Igor Andrade">🤔 💻 🚧</a></td>
-    <td align="center"><a href="https://github.com/hugofolloni"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/82226141?v=4" width="100px;" alt=""/><br /><sub><b>Hugo Folloni</b></sub></a><br /><a href="https://github.com/andradeigor/DiscordBotUFRJ/commits?author=hugofolloni" title="Hugo Folloni">🤔 💻 🚧</a></td>
-    <td align="center"><a href="https://github.com/LeoBardineo"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/45073941?v=4" width="100px;" alt=""/><br /><sub><b>Leonardo de Melo</b></sub></a><br /><a href="https://github.com/andradeigor/DiscordBotUFRJ/commits?author=LeoBardineo" title="Leonardo de Melo">🤔 💻 🚧</a></td>
+    <td align="center"><a href="https://github.com/andradeigor"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/21049910?v=4" width="100px;" alt=""/><br /><sub><b>Igor Andrade</b></sub></a><br /><a href="#" title="Igor Andrade">🤔 💻 🚧</a></td>
+    <td align="center"><a href="https://github.com/GCarolC"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/88149336?v=4" width="100px;" alt=""/><br /><sub><b>Carol Carvalho</b></sub></a><br /><a href="#" title="Carol Carvalho">🤔 💻 🚧</a></td>
+    <td align="center"><a href="https://github.com/BeMyLewski"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/87191058?v=4" width="100px;" alt=""/><br /><sub><b>Bernardo Milewski</b></sub></a><br /><a href="#" title="Bernardo Milewski">🤔 💻 🚧</a></td>
   </tr>
 </table>
 
